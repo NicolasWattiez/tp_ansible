@@ -16,7 +16,7 @@ services:
     links:
       - master
     image: centos:7
-    container_name: host01
+    container_name: centos01
     hostname: host01
     stdin_open: true
     tty: true
@@ -66,7 +66,7 @@ services:
       bash -c "apt update && apt upgrade -y 
       &&  DEBIAN_FRONTEND=noninteractive 
       &&  mkdir -p /run/sshd
-      &&  apt install -y apt --no-install-recommends openssh-server  
+      &&  apt install -y apt --no-install-recommends openssh-server python3
       &&  sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
       &&  sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
       &&  echo 'root:toor' | chpasswd 
@@ -88,7 +88,7 @@ services:
       bash -c "apt update && apt upgrade -y 
       &&  DEBIAN_FRONTEND=noninteractive 
       &&  mkdir -p /run/sshd
-      &&  apt install -y apt --no-install-recommends openssh-server  
+      &&  apt install -y apt --no-install-recommends openssh-server python3  
       &&  sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
       &&  sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
       &&  echo 'root:toor' | chpasswd 
