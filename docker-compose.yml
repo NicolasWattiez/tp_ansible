@@ -16,8 +16,8 @@ services:
     links:
       - master
     image: centos:7
-    container_name: centos01
-    hostname: host01
+    container_name: appcentos01
+    hostname: appcentos01
     stdin_open: true
     tty: true
     command: >
@@ -37,8 +37,8 @@ services:
     links:
       - master
     image: centos:7
-    container_name: host02
-    hostname: host02
+    container_name: dbcentos02
+    hostname: dbcentos02
     stdin_open: true
     tty: true
     command: >
@@ -58,8 +58,8 @@ services:
     links:
       - master
     image: ubuntu
-    container_name: host03
-    hostname: host03
+    container_name: appubuntu03
+    hostname: appubuntu03
     stdin_open: true
     tty: true
     command : >
@@ -80,8 +80,8 @@ services:
     links:
       - master
     image: ubuntu
-    container_name: host04
-    hostname: host04
+    container_name: dbubuntu04
+    hostname: dbubuntu04
     stdin_open: true
     tty: true
     command : >
