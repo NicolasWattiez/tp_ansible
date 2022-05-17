@@ -1,5 +1,5 @@
 ---
-- hosts: host03
+- hosts: dbubuntu04
   vars_files: 
   - vars/main.yml
 
@@ -91,7 +91,6 @@
       password: "{{ mysql_password }}"
       priv: "*.*:ALL"
       append_privs: yes
-      host: "{{ webserver_host }}"
       state: present
       login_user: root
       login_password: '{{ root_password }}'
