@@ -2,6 +2,16 @@
 
 Ce TP a été réalisé dans le cadre de la formation "Ingénieur devops" d'AJC ingénieurie. Le sujet a été réalisé par Vanessa David, Ingénieure DevOps.
 
+L’application est un outil pour le suivi du parc informatique de l’entreprise.
+
+L’application permet de stocker des données concernant les machines du parc informatiques dans une base mysql.
+L’utilisateur peut réaliser des actions sur cette base de donnée telle que :
+- Lister les machines avec l’ensemble de leurs informations
+- Voir une machine à partir de son nom
+- Modifier une machine
+- Supprimer une machine
+- Ajouter une machine
+
 Les fichiers docker-compose, playbook.yaml et Jenkinsfile rédigé dans ce TP ont pour but de permettre la mise en place d'un déploiement continu.
 
 ## Pré-requis 
