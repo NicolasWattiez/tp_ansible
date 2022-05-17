@@ -64,7 +64,7 @@ ssh-keygen
 eval "$(ssh-agent)"
 ssh-add /root/.ssh/id_rsa
 ```
-*NB: penser à modifier /root/.ssh/id_rsa si vous avez enregistré votre clé ailleurs que dans le chemin par défaut
+*NB: penser à modifier /root/.ssh/id_rsa si vous avez enregistré votre clé ailleurs que dans le chemin par défaut*
 
 __4) Copie de la clé sur les machines hôtes :__  il vous faudra effectuer les commandes suivantes une par une en utilisant les adresses IP récupérées a l'étape 1 : (le mot de passe du root est *toor*)
 
