@@ -1,0 +1,17 @@
+task purge(type: Delete){ 
+    //println 'Cleaning up old files'
+    delete 'build/app_python.zip'
+}
+
+task dependances(type: Exec){
+    executable 'sh'
+    args '-c', 'pip3 install -r requirements.txt'
+    standardOutput = new ByteArrayOutputStream()
+    ext.output = { return standardOutput.toString() }
+}
+
+task packageDistribution(type: Zip){
+    from ('app') into ('.')
+    archiveFileName = 'app_python.zip'
+    destinationDirectory = file("build")
+}
