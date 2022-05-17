@@ -89,13 +89,13 @@ ssh root@<IPmachinehost4>
 Créer le fichier /etc/ansible/hosts qui contiendra :
 ```
 [hostpython]
-<nom_host_ubuntu_python> ansible_host=<IP_correspondant>
-<nom_host_ceontOS_python> ansible_host=<IP_correspondant>
+appubuntu03 ansible_host=<IP_correspondant>
+appcentos01 ansible_host=<IP_correspondant>
 [hostbdd]
-<nom_host_ubuntu_mysql> ansible_host=<IP_correspondant>
-<nom_host_ceontOS_mysql> ansible_host=<IP_correspondant>
+dbubuntu04 ansible_host=<IP_correspondant>
+dbcentos02 ansible_host=<IP_correspondant>
 ```
-*où <nom_host_ubuntu_python> est le nom d'un des hôtes ubuntu qui acceuillera l'application, <nom_host_ubuntu_mysql> est le nom d'un des hôtes ubuntu qui acceuillera la base de donnée et idem pour CentOS*
+*penser toutefois à vérifier les noms de vos hosts si vous les avez mdoifier et à les mettre à la place de appubuntu03 etc..*
 
 ## Lancement du playbook
 
