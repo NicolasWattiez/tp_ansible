@@ -1,0 +1,4 @@
+---
+- hosts: appubuntu03
+  vars_files:
+    vars/app.yml
