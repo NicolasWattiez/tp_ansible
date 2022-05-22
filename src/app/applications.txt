@@ -1,2 +1,0 @@
-Firefox,Mozilla,98.0.2
-Thunderbird,Mozilla,91.7.1
