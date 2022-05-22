@@ -1,7 +1,7 @@
 ---
-- hosts: dbubuntu04
+- hosts: dbubuntu
   vars_files: 
-  - vars/mariadb.yml
+  - vars/mariadb_ubuntu.yml
 
   tasks:
   - name: install mysql

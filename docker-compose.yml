@@ -2,13 +2,13 @@ version: "3.7"
 services:
   master:
     image: alpine:latest
-    container_name: master01
-    hostname: master01
+    container_name: master
+    hostname: master
     stdin_open: true
     tty: true
     command : >
       /bin/sh -c "apk update 
-      &&  apk add ansible openssh-server openssh
+      &&  apk add ansible openssh-server openssh sshpass
       && /bin/sh"
     volumes:
       - ansible_vol:/var/ans
@@ -16,8 +16,8 @@ services:
     links:
       - master
     image: centos:7
-    container_name: appcentos01
-    hostname: appcentos01
+    container_name: appcentos
+    hostname: appcentos
     stdin_open: true
     tty: true
     command: >
@@ -27,7 +27,8 @@ services:
       &&  sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config 
       &&  echo 'root:toor' | chpasswd 
       &&  ssh-keygen -A
-      && /usr/sbin/sshd -D"
+      && /usr/sbin/sshd -D
+      && mkdir /etc/ansible"
     expose: 
       - 22
     volumes:
@@ -37,13 +38,13 @@ services:
     links:
       - master
     image: centos:7
-    container_name: dbcentos02
-    hostname: dbcentos02
+    container_name: dbcentos
+    hostname: dbcentos
     stdin_open: true
     tty: true
     command: >
       /bin/sh -c "yum update -y 
-      &&  yum install -y openssh-server python 
+      &&  yum install -y openssh-server python
       &&  yum clean all 
       &&  sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config 
       &&  echo 'root:toor' | chpasswd 
@@ -58,8 +59,8 @@ services:
     links:
       - master
     image: ubuntu
-    container_name: appubuntu03
-    hostname: appubuntu03
+    container_name: appubuntu
+    hostname: appubuntu
     stdin_open: true
     tty: true
     command : >
@@ -80,8 +81,8 @@ services:
     links:
       - master
     image: ubuntu
-    container_name: dbubuntu04
-    hostname: dbubuntu04
+    container_name: dbubuntu
+    hostname: dbubuntu
     stdin_open: true
     tty: true
     command : >
