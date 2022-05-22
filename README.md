@@ -41,16 +41,14 @@ Nous allons utiliser le fichier docker-compose.yml pour créer le master, 2 hôt
 docker-compose up -d
 ```
 
-## Copier le playbook dans le master01
+## Copier les fichier du dossier ansible dans le master
 
 Dans votre terminal : 
 ```
-docker cp ~/tp_ansible/playbook.yml <id_master01>:/playbook.yml
+docker cp ansible/. <name_master>:/etc/ansible/
 ```
-*où <id_master01> est l'id du conteneur master01 que vous pouvez trouver en faisant* 
-```
-docker container ls
-```
+Ici, `<name_master>` correspond simplement à "master".
+
 
 ## Configuration des hôtes
 
@@ -93,19 +91,6 @@ ssh root@<IPmachinehost2>
 ssh root@<IPmachinehost3>
 ssh root@<IPmachinehost4>
 ```
-
-## Créer le fichier /etc/ansible/hosts
-
-Créer le fichier /etc/ansible/hosts qui contiendra :
-```
-[hostpython]
-appubuntu03 ansible_host=<IP_correspondant>
-appcentos01 ansible_host=<IP_correspondant>
-[hostbdd]
-dbubuntu04 ansible_host=<IP_correspondant>
-dbcentos02 ansible_host=<IP_correspondant>
-```
-*penser toutefois à vérifier les noms de vos hosts si vous les avez mdoifier et à les mettre à la place de appubuntu03 etc..*
 
 ## Lancement du playbook
 

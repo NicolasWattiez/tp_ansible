@@ -8,6 +8,7 @@
       name: 
         - python3-pip
         - python3-setuptools
+        - libmariadb-dev
       state: present
       update_cache: yes
   - name: Install the Python MySQLB module
