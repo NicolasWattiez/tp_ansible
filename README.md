@@ -32,6 +32,7 @@ git clone https://github.com/NicolasWattiez/tp_ansible
 Se déplacer dans le dossier de travail 
 ```
 cd tp_ansible
+cd ansible
 ```
 ## Création des hôtes
 
