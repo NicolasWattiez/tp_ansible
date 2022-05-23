@@ -107,5 +107,16 @@ services:
     volumes:
      - ansible_vol:/var/ans
 
+  jenkins:
+    build: ./jenkins
+    ports: 
+      - "8098:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    container_name: jenkins
+
+
 volumes:
   ansible_vol:
+  jenkins_home: {}
