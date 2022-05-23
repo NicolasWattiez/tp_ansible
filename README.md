@@ -57,16 +57,16 @@ __1) Récupération des adresses IP :__ nous allons récupérer les IP de chaque
 ```
 docker inspect <nom_conteneur> | grep IP 
 ```
-*<nom_conteneur> est le nom donné à chaque hôte (ex: master, host01 etc...)*
+*<nom_conteneur> est le nom donné à chaque hôte (ex: master, appubuntu, appcentos, dbubuntu, dbcentos)*
 
 __2) Connexion au master__
 
 ```
 docker exec -it master sh
 ```
-Vous êtes désormais connecter dans le master01, nous allons maintenant connecter le master aux 4 hôtes (ubuntu et CentOS) via ssh 
+Vous êtes désormais connecté dans le master, nous allons maintenant connecter le master aux 4 hôtes (ubuntu et CentOS) via ssh 
 
-__3) Connexion en SSH :__ effectuer les commandes ci dessous dans le master, une par une : (les deux dernières étapes sont là pour s'assurer que la clé ssh ait bien été ajoutée)
+__3) Connexion en SSH :__ effectuer les commandes ci-dessous dans le master, une par une : (les deux dernières étapes sont là pour s'assurer que la clé ssh ait bien été ajoutée)
 
 ```
 ssh-keygen
