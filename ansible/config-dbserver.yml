@@ -78,7 +78,7 @@
 
   - name: add sql table to database
     mysql_db:
-      name: db_demo
+      name: parc_informatique
       state: import
       login_unix_socket: /var/run/mysqld/mysqld.sock
       login_user: root
@@ -90,6 +90,7 @@
       name: "{{ mysql_user }}"
       password: "{{ mysql_password }}"
       priv: "*.*:ALL"
+      host: "%" # allow connection from any host. Should/could be replaced by specific host
       append_privs: yes
       state: present
       login_user: root
@@ -99,9 +100,15 @@
   - name: ensure mysql is configured to bind to the specified address and port
     ini_file:
       dest: /etc/mysql/my.cnf
-      section: mysqld
-      option: "bind-address"
-      value: "0.0.0.0"
+      section: "{{ item.section }}"
+      option: "{{ item.option }}"
+      value: "{{ item.value }}"
+    with_items:
+      - {section: client, option: port, value: 3306 }
+      - {section: client, option: socket, value: /var/run/mysqld/mysqld.sock }
+      - {section: mysqld_safe, option: socket, value: /var/run/mysqld/mysqld.sock }
+      - {section: mysqld, option: socket, value: /var/run/mysqld/mysqld.sock }
+      - {section: mysqld, option: bind-address, value: 0.0.0.0 }
     register: my_cnf
 
   - name: restart mysql after bind

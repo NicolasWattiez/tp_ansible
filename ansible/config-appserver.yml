@@ -2,6 +2,13 @@
 - hosts: appubuntu
   vars_files:
     vars/app_ubuntu.yml
+  # roles:
+  #   - app
+  environment:
+      MARIADB_USER: '{{ MARIADB_USER }}'
+      MARIADB_PASSWORD: '{{ MARIADB_PASSWORD }}'
+      DB_NAME: '{{ DB_NAME }}'
+      DB_HOST: '{{ DB_HOST }}'
   tasks:
   - name: install pip
     apt:
@@ -12,4 +19,11 @@
       state: present
       update_cache: yes
   - name: Install the Python MySQLB module
-    pip: name=mariadb
+    pip: name=mariadb   
+
+  - name: Echo my_env_var # useless   
+    shell: "export $MARIADB_USER $MARIADB_PASSWORD $DB_NAME $DB_HOST" #useless
+  - name: upload app source
+    copy:
+      src: /etc/ansible/files/src/
+      dest: ~/

@@ -74,6 +74,8 @@ services:
       && /usr/sbin/sshd -D"
     expose: 
       - 22
+    ports:
+      - 8042:80
     volumes:
      - ansible_vol:/var/ans
 
@@ -96,6 +98,8 @@ services:
       && /usr/sbin/sshd -D"
     expose:
       - 22
+    ports:
+      - 3306:3306
     volumes:
      - ansible_vol:/var/ans
 

@@ -1,0 +1,13 @@
+MARIADB_USER: "user"
+
+MARIADB_PASSWORD: "mypassword"
+
+DB_NAME: "parc_informatique"
+
+DB_HOST: "dbubuntu"
+
+
+# export MARIADB_USER=user MARIADB_PASSWORD=mypassword DB_NAME=parc_informatique DB_HOST=dbubuntu
+
+
+# conn = mariadb.connect(user="user", password="mypassword", host="dbubuntu", port=3306)
