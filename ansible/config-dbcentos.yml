@@ -1,0 +1,122 @@
+---
+- hosts: dbcentos
+  vars_files: 
+  - vars/mariadb_centos.yml
+
+  tasks:
+  - name: Add repository
+    yum_repository:
+      name: mysql-server
+      description: mysql YUM repo
+      baseurl: https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm
+      enabled: no
+  - name: enable only one repository
+    shell: sed -i 's/enabled=1/enabled=0/' /etc/yum.repos.d/mysql-community.repo
+  - name: install mysql
+    yum:
+      name: 
+        - mariadb-server
+        - python3-pip
+        - python3-setuptools
+        - MySQL-python
+      state: present
+      update_cache: yes  
+
+  - name: Install the Python MySQLB module
+    pip: name=mariadb-connector
+
+  - name: Ensure mysql service is running
+    shell: service mysql start
+
+  - name: Create MySQL client config
+    copy:
+      dest: "/root/.my.cnf"
+      content: |
+        [client]
+        user=root
+        password={{ root_password }}
+      mode: 0400
+
+  - name: Ensure root user can only login from localhost
+    mysql_user:
+      name: user
+      host: localhost
+      password: "{{ mysql_password }}"
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+
+  - name: Remove anonymous users
+    command: |
+      mysql -p{{ root_password }} -ne "{{ item }}"
+    with_items:
+      - DELETE FROM mysql.user WHERE User=''
+    changed_when: False
+
+  - name: Disallow root login remotely
+    command: |
+      mysql -p{{ root_password }} -ne "{{ item }}"
+    with_items:
+      - DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1')
+    changed_when: False
+
+  - name: Remove test database and access to it
+    command: |
+      mysql -p{{ root_password }} -ne "{{ item }}"
+    with_items:
+      - DROP DATABASE IF EXISTS test
+      - DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'
+    changed_when: False
+
+  - name: Reload privilege tables
+    command: |
+      mysql -p{{ root_password }} -ne "{{ item }}"
+    with_items:
+      - FLUSH PRIVILEGES
+    changed_when: False
+
+  - name: Delete .my.conf
+    file:
+      path: /root/.my.cnf
+      state: absent
+
+  - name: upload sql table config
+    copy:
+      src: "files/table.sql"
+      dest: "/tmp/table.sql"
+
+  - name: add sql table to database
+    mysql_db:
+      name: parc_informatique
+      state: import
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+      login_user: root
+      login_password: '{{ root_password }}'
+      target: /tmp/table.sql
+
+  - name: "Create {{ mysql_user }} with all {{ mysql_dbname }} privileges"
+    mysql_user:
+      name: "{{ mysql_user }}"
+      password: "{{ mysql_password }}"
+      priv: "*.*:ALL"
+      host: "%" # allow connection from any host. Should/could be replaced by specific host
+      append_privs: yes
+      state: present
+      login_user: root
+      login_password: '{{ root_password }}'
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+
+  - name: ensure mysql is configured to bind to the specified address and port
+    ini_file:
+      dest: /etc/mysql/my.cnf
+      section: "{{ item.section }}"
+      option: "{{ item.option }}"
+      value: "{{ item.value }}"
+    with_items:
+      - {section: client, option: port, value: 3306 }
+      - {section: client, option: socket, value: /var/run/mysqld/mysqld.sock }
+      - {section: mysqld_safe, option: socket, value: /var/run/mysqld/mysqld.sock }
+      - {section: mysqld, option: socket, value: /var/run/mysqld/mysqld.sock }
+      - {section: mysqld, option: bind-address, value: 0.0.0.0 }
+    register: my_cnf
+
+  - name: restart mysql after bind
+    shell: service mysql restart

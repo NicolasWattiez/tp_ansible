@@ -44,8 +44,12 @@ services:
     tty: true
     command: >
       /bin/sh -c "yum update -y 
-      &&  yum install -y openssh-server python
+      &&  yum install -y openssh-server python wget
       &&  yum clean all 
+      &&  wget https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+      &&  chmod +x mariadb_repo_setup
+      &&  ./mariadb_repo_setup
+      &&  rm mariadb_repo_setup
       &&  sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config 
       &&  echo 'root:toor' | chpasswd 
       &&  ssh-keygen -A
