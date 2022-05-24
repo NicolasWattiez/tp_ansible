@@ -1,0 +1,9 @@
+mysql_user: "user"
+
+mysql_password: "mypassword"
+
+mysql_dbname: "parc_informatique"
+
+db_host: "localhost"
+
+root_password: "rootpassword"
