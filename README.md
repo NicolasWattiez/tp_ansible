@@ -46,7 +46,7 @@ docker-compose up -d
 
 Dans votre terminal : 
 ```
-docker cp ansible/. <name_master>:/etc/ansible/
+docker cp . <name_master>:/etc/ansible/
 ```
 Ici, `<name_master>` correspond simplement à "master".
 
@@ -57,16 +57,16 @@ __1) Récupération des adresses IP :__ nous allons récupérer les IP de chaque
 ```
 docker inspect <nom_conteneur> | grep IP 
 ```
-*<nom_conteneur> est le nom donné à chaque hôte (ex: master0A, host01 etc...)*
+*<nom_conteneur> est le nom donné à chaque hôte (ex: master, appubuntu, appcentos, dbubuntu, dbcentos)*
 
 __2) Connexion au master__
 
 ```
-docker exec -it master01 sh
+docker exec -it master sh
 ```
-Vous êtes désormais connecter dans le master01, nous allons maintenant connecter le master01 aux 4 hôtes (ubuntu et CentOS) via ssh 
+Vous êtes désormais connecté dans le master, nous allons maintenant connecter le master aux 4 hôtes (ubuntu et CentOS) via ssh 
 
-__3) Connexion en SSH :__ effectuer les commandes ci dessous dans le master01, une par une : (les deux dernières étapes sont là pour s'assurer que la clé ssh ait bien été ajoutée)
+__3) Connexion en SSH :__ effectuer les commandes ci-dessous dans le master, une par une : (les deux dernières étapes sont là pour s'assurer que la clé ssh ait bien été ajoutée)
 
 ```
 ssh-keygen
@@ -95,7 +95,10 @@ ssh root@<IPmachinehost4>
 
 ## Lancement du playbook
 
-Nous allons maintenant pouvoir lancer notre playbook.yml dans le master01
+Nous allons maintenant pouvoir lancer notre playbook dans le master pour la configuration de la base de donnée sur ubuntu
 ```
-ansible-playbook playbook.yml
+cd etc
+cd ansible 
+ansible-playbook config-dbserver.yml 
 ```
+(ou bien config-appserver.yml(pour l'app sur ubuntu), config-dbcentos.yml(pour la base de donnée centos) selon la configuration que vous soufaitez faire)

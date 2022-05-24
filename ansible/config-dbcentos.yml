@@ -6,27 +6,41 @@
   tasks:
   - name: Add repository
     yum_repository:
-      name: mysql-server
-      description: mysql YUM repo
+      name: epel
+      description: EPEL YUM repo
       baseurl: https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm
       enabled: no
-  - name: enable only one repository
-    shell: sed -i 's/enabled=1/enabled=0/' /etc/yum.repos.d/mysql-community.repo
+
+  # - name: enable only one repository
+  #   shell: sed -i 's/enabled=1/enabled=0/' /etc/yum.repos.d/mysql-community.repo
+
   - name: install mysql
     yum:
       name: 
         - mariadb-server
         - python3-pip
         - python3-setuptools
-        - MySQL-python
       state: present
       update_cache: yes  
 
-  - name: Install the Python MySQLB module
-    pip: name=mariadb-connector
+  - name: Install the PyMySQL module
+    pip: 
+      name: PyMySQL
+      state: present
+
+  - name: Install the mysql-connector module
+    pip: 
+      name: mysql-connector
+      state: present
 
   - name: Ensure mysql service is running
-    shell: service mysql start
+    shell: systemctl start mariadb
+  #   become: true
+  # - name: Ensure mysql service is running
+  #   service:
+  #     name: mariadb
+  #     state: started
+  # https://serverfault.com/questions/824975/failed-to-get-d-bus-connection-operation-not-permitted
 
   - name: Create MySQL client config
     copy:
@@ -42,7 +56,7 @@
       name: user
       host: localhost
       password: "{{ mysql_password }}"
-      login_unix_socket: /var/run/mysqld/mysqld.sock
+      login_unix_socket: /var/lib/mysql/mysql.sock
 
   - name: Remove anonymous users
     command: |
@@ -87,7 +101,7 @@
     mysql_db:
       name: parc_informatique
       state: import
-      login_unix_socket: /var/run/mysqld/mysqld.sock
+      login_unix_socket: /var/lib/mysql/mysql.sock
       login_user: root
       login_password: '{{ root_password }}'
       target: /tmp/table.sql
@@ -102,7 +116,7 @@
       state: present
       login_user: root
       login_password: '{{ root_password }}'
-      login_unix_socket: /var/run/mysqld/mysqld.sock
+      login_unix_socket: /var/lib/mysql/mysql.sock
 
   - name: ensure mysql is configured to bind to the specified address and port
     ini_file:
@@ -119,4 +133,4 @@
     register: my_cnf
 
   - name: restart mysql after bind
-    shell: service mysql restart
+    shell: systemctl restart mariadb
