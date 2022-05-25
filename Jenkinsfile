@@ -30,7 +30,6 @@ pipeline {
         sh 'ansible-playbook config-dbcentos.yml'
         sh 'ansible-playbook config-appcentos.yml'
       }
-	    
+    }  
    }
 }
-)
