@@ -18,12 +18,13 @@ pipeline {
         sh 'gradle packageDistribution'
       }
 	   }
-    stage ('Connection ssh') {
 
-      }
 	  stage ('Lancement playbook') {
 
       steps {
+        sh 'ssh root@master'
+        sh 'cd etc'
+        sh 'cd ansible'
         sh 'ansible-playbook config-dbserver.yml'
         sh 'ansible-playbook config-appserver.yml'
         sh 'ansible-playbook config-dbcentos.yml'
