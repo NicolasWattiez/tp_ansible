@@ -4,4 +4,4 @@ dbcentos ansible_python_interpreter=/usr/bin/python3.6
 
 [app]
 appubuntu
-appcentos
+appcentos ansible_python_interpreter=/usr/bin/python3.6
