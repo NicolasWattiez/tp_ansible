@@ -26,16 +26,19 @@ Pour le cloner sur votre machine, ouvrir un terminal et effectuer la commande su
 ```
 git clone https://github.com/NicolasWattiez/tp_ansible
 ```
-Il faudra se placer sur la branche jenkins après s'être placé dans le dossier tp_ansible
-```
-git checkout jenkins
+## Nettoyer son espace de travail si besoin (facultatif) 
+
+Si vous avez des conteneurs qui tournent pour rien ou qui peuvent interférer avec ceux que nous allons installer il peut être utile de tous les arrêter et les supprimer 
 ``` 
-## Se place dans le dossier de travail
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+```
+
+## Se placer dans le dossier de travail
 
 Se déplacer dans le dossier de travail 
 ```
 cd tp_ansible
-cd ansible
 ```
 ## Création des hôtes
 
@@ -45,17 +48,20 @@ Nous allons utiliser le fichier docker-compose.yml pour créer le master, 2 hôt
 docker-compose up -d
 ```
 
-## Copier les fichier du dossier ansible dans le master
+## Copier les fichier utiles dans les conteneurs master et jenkins
 
-Dans votre terminal : 
+Copiet le contenu du dossier ansible dans le conteneur master : 
 ```
-docker cp . master:/etc/ansible/
+docker cp ansible/. master:/etc/ansible/
 ```
-Revenez au dossier parent puis copier le Jenkinsfile dans le conteneur jenkins
+Copier le Jenkinsfile dans le conteneur jenkins
 ```
-cd ..
 docker cp Jenkinsfile jenkins:/home
 ```
+Nous devons aussi télécharger une image en local 
+```
+docker build --rm -t local/c7-sytemd .
+``` 
 
 ## Configuration des hôtes
 
@@ -130,20 +136,13 @@ Une fois sur Jenkins :
 2) Se rendre dans Global Tool Configuration 
 3) Ajouter un Gradle en lui donnant le nom 'gradle'
 4) Save
-5) Créer un projet pipeline et donné lui un nom 
-6) Dans Pipeline définition choisir Pipeline Script from SCM
-7) Choisir git
-8) ChoisCOpier l'url suivant dans la case correspondante :https://github.com/NicolasWattiez/tp_ansible
-9) Dans branch to build saisir : */jenkins
-10) Save 
-11) Lancer le Build Now
+5) Retourner dans Manage jenkis puis dans Manage Plug-in
+6) Cliquer sur Available puis chercher SSH Pipeline Steps, le sélectionner et l'installer
+7) Créer un projet pipeline et donné lui un nom 
+8) Dans Pipeline définition choisir Pipeline Script from SCM
+9) Choisir git
+10) Copier l'url suivant dans la case correspondante :https://github.com/NicolasWattiez/tp_ansible
+11) Dans branch to build saisir : */main
+12) Save 
+13) Lancer le Build Now
 
-## Lancement du playbook (étape facultatif si on ne se sert pas de Jenkinsfile pour lancer nos playbooks)
-
-Nous allons maintenant pouvoir lancer notre playbook dans le master pour la configuration de la base de donnée sur ubuntu
-```
-cd etc
-cd ansible 
-ansible-playbook config-dbserver.yml 
-```
-(ou bien config-appserver.yml(pour l'app sur ubuntu), config-dbcentos.yml(pour la base de donnée centos) selon la configuration que vous soufaitez faire)
