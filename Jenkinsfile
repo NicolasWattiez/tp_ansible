@@ -1,3 +1,9 @@
+def remote = [:] 
+remote.name= 'jenkins'
+remote.host='master'
+remote.user='root'
+remote.password='toor'
+remote.allowAnyHosts=true
 pipeline {
  agent any
    stages {
@@ -18,18 +24,14 @@ pipeline {
         sh 'gradle packageDistribution'
       }
 	   }
+      stage('SSH into the serveur'){
+        steps {
+            sshCommand remote: remote, command: "ansible-playbook /etc/ansible/config-dbubuntu.yml"
+            sshCommand remote: remote, command: "ansible-playbook /etc/ansible/config-dbcentos.yml"
+            sshCommand remote: remote, command: "ansible-playbook /etc/ansible/config-appubuntu.yml"
+            sshCommand remote: remote, command: "ansible-playbook /etc/ansible/config-appcentos.yml"
 
-	  stage ('Lancement playbook') {
-
-      steps {
-        sh 'ssh root@master'
-        sh 'cd etc'
-        sh 'cd ansible'
-        sh 'ansible-playbook config-dbserver.yml'
-        sh 'ansible-playbook config-appserver.yml'
-        sh 'ansible-playbook config-dbcentos.yml'
-        sh 'ansible-playbook config-appcentos.yml'
+        }
       }
-    }  
    }
 }
