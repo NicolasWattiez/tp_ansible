@@ -3,7 +3,7 @@ import mariadb
 class Application:
 
     def __init__(self, connexion) -> None:
-        # Propriété de l'objet application
+        # Propriete de l'objet application
         self.__nom = ''
         self.__editeur = ''
         self.__version = "22.04"
@@ -31,7 +31,7 @@ class Application:
         if isinstance(version, str): 
             self.__version = version
 
-    # Lister des applications informatiques avec les caractéristiques suivantes : 
+    # Lister des applications informatiques avec les caracteristiques suivantes : 
     def listeapplications(self):
         cursor = self.__connexion.cursor()
         cursor.execute('SELECT * FROM applications;')
@@ -67,7 +67,7 @@ class Application:
             cursor = self.__connexion.cursor()
             cursor.execute('INSERT INTO applications ( `nom`, `editeur`, `version`)  VALUES (?, ?, ?);',(liste_donnees[0], liste_donnees[1], liste_donnees[2],))
             self.__connexion.commit()
-            return 'L\'application a bien été ajoutée'
+            return 'L\'application a bien ete ajoutee'
         except mariadb.Error as e:     
             return f'Erreur lors de la suppression {e} '
 
@@ -78,7 +78,7 @@ class Application:
         application_a_afficher = cursor.fetchone()
         return application_a_afficher
 
-    # Permettre de récupérer les informations d’une application en saisissant son hostname
+    # Permettre de recuperer les informations d’une application en saisissant son hostname
     def voirapplication(self, application) :
         application_a_afficher = self.__trouveruneapplication(application)
         return application_a_afficher
@@ -99,6 +99,6 @@ class Application:
             cursor = self.__connexion.cursor()
             cursor.execute('DELETE FROM applications WHERE nom = ?;',(application,))
             self.__connexion.commit()
-            return 'La machine a bien été supprimée'
+            return 'La machine a bien ete supprimee'
         except mariadb.Error as e:     
             return f'Erreur lors de la suppression {e} '

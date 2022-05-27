@@ -5,3 +5,7 @@ MARIADB_PASSWORD: "mypassword"
 DB_NAME: "parc_informatique"
 
 DB_HOST: "dbcentos"
+
+# export MARIADB_USER=user MARIADB_PASSWORD=mypassword DB_NAME=parc_informatique DB_HOST=dbcentos
+
+# conn = mariadb.connect(user="user", password="mypassword", host="dbcentos", port=3307)

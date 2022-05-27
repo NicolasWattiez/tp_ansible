@@ -35,12 +35,6 @@
 
   - name: Ensure mysql service is running
     shell: systemctl start mariadb
-  #   become: true
-  # - name: Ensure mysql service is running
-  #   service:
-  #     name: mariadb
-  #     state: started
-  # https://serverfault.com/questions/824975/failed-to-get-d-bus-connection-operation-not-permitted
 
   - name: Create MySQL client config
     copy:
