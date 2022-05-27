@@ -42,8 +42,16 @@ cd tp_ansible
 ```
 Nous devons aussi télécharger une image en local 
 ```
+cd docker
+cd centos
 docker build --rm -t local/c7-sytemd .
 ``` 
+Revenir dans l'espace de travail
+```
+cd ..
+cd ..
+```
+
 ## Création des hôtes
 
 Nous allons utiliser le fichier docker-compose.yml pour créer le master, 2 hôtes ubuntu (1 pour l'application python et 1 pour la base de donnée) et 2 hôtes CentOS (idem)
