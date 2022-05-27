@@ -40,6 +40,10 @@ Se déplacer dans le dossier de travail
 ```
 cd tp_ansible
 ```
+Nous devons aussi télécharger une image en local 
+```
+docker build --rm -t local/c7-sytemd .
+``` 
 ## Création des hôtes
 
 Nous allons utiliser le fichier docker-compose.yml pour créer le master, 2 hôtes ubuntu (1 pour l'application python et 1 pour la base de donnée) et 2 hôtes CentOS (idem)
@@ -58,10 +62,6 @@ Copier le Jenkinsfile dans le conteneur jenkins
 ```
 docker cp Jenkinsfile jenkins:/home
 ```
-Nous devons aussi télécharger une image en local 
-```
-docker build --rm -t local/c7-sytemd .
-``` 
 
 ## Configuration des hôtes
 
